@@ -1,0 +1,110 @@
+<!-- features/tech-assets/tech-asset-form/tech-asset-form.html -->
+<div class="max-w-lg mx-auto p-6">
+  <h1 class="text-2xl font-bold text-gray-800 mb-6">
+    {{ isEditMode() ? 'Editar Activo' : 'Nuevo Activo' }}
+  </h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+    <!-- Asset Tag -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Asset Tag</label>
+      <input
+        type="text"
+        formControlName="assetTag"
+        placeholder="LT-2024-001"
+        class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
+        [class.border-red-500]="f.assetTag.invalid && f.assetTag.touched"
+      />
+      @if (f.assetTag.invalid && f.assetTag.touched) {
+        <p class="text-red-600 text-sm mt-1">
+          @if (f.assetTag.errors?.['required']) {
+            El Asset Tag es obligatorio.
+          } @else if (f.assetTag.errors?.['pattern']) {
+            Formato esperado: LT-2024-001
+          }
+        </p>
+      }
+    </div>
+
+    <!-- Brand -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Marca</label>
+      <input
+        type="text"
+        formControlName="brand"
+        class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [class.border-red-500]="f.brand.invalid && f.brand.touched"
+      />
+      @if (f.brand.invalid && f.brand.touched) {
+        <p class="text-red-600 text-sm mt-1">La marca es obligatoria.</p>
+      }
+    </div>
+
+    <!-- Model -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+      <input
+        type="text"
+        formControlName="model"
+        class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [class.border-red-500]="f.model.invalid && f.model.touched"
+      />
+      @if (f.model.invalid && f.model.touched) {
+        <p class="text-red-600 text-sm mt-1">El modelo es obligatorio.</p>
+      }
+    </div>
+
+    <!-- Serial Number -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Número de Serie</label>
+      <input
+        type="text"
+        formControlName="serialNumber"
+        class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100 disabled:text-gray-500"
+        [class.border-red-500]="f.serialNumber.invalid && f.serialNumber.touched"
+      />
+      @if (f.serialNumber.invalid && f.serialNumber.touched) {
+        <p class="text-red-600 text-sm mt-1">El número de serie es obligatorio.</p>
+      }
+    </div>
+
+    <!-- Purchase Price -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Precio de Compra</label>
+      <input
+        type="number"
+        step="0.01"
+        formControlName="purchasePrice"
+        class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        [class.border-red-500]="f.purchasePrice.invalid && f.purchasePrice.touched"
+      />
+      @if (f.purchasePrice.invalid && f.purchasePrice.touched) {
+        <p class="text-red-600 text-sm mt-1">
+          @if (f.purchasePrice.errors?.['required']) {
+            El precio es obligatorio.
+          } @else if (f.purchasePrice.errors?.['min']) {
+            El precio debe ser mayor a cero.
+          }
+        </p>
+      }
+    </div>
+
+    <!-- Botones -->
+    <div class="flex gap-3 pt-4">
+      <button
+        type="submit"
+        [disabled]="submitting()"
+        class="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white px-4 py-2 rounded-md font-medium transition"
+      >
+        {{ submitting() ? 'Guardando...' : isEditMode() ? 'Actualizar' : 'Crear' }}
+      </button>
+      <button
+        type="button"
+        (click)="cancel()"
+        class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-md font-medium transition"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>
